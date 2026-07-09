@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>KRVN - TikTok Auth Callback</title>
+<style>body{font-family:monospace;background:#0f0f14;color:#00f0b4;padding:40px;max-width:900px;margin:auto}
+h1{color:#fff;font-size:22px}pre{background:#1c1c26;padding:20px;border-radius:8px;word-break:break-all;color:#fff;font-size:14px}
+.label{color:#a0a0aa;font-size:13px;margin-bottom:6px}.ok{color:#50dc78}
+button{background:#00f0b4;color:#0f0f14;border:none;padding:10px 22px;font-family:monospace;font-size:14px;border-radius:6px;cursor:pointer;margin-top:14px}
+</style></head>
+<body>
+<h1>KRVN - TikTok Authorization</h1>
+<div class="label">Full redirect URL (copy this into the script):</div>
+<pre id="url"></pre>
+<button onclick="copy()">Copy URL</button>
+<div id="status" style="margin-top:12px"></div>
+<script>
+const url = window.location.href;
+document.getElementById('url').textContent = url;
+function copy(){
+  navigator.clipboard.writeText(url).then(()=>{
+    document.getElementById('status').innerHTML = '<span class="ok">[OK] Copied to clipboard</span>';
+  });
+}
+const p = new URLSearchParams(window.location.search);
+if(p.get('code')){
+  document.getElementById('status').innerHTML = '<span class="ok">[OK] Authorization code detected - paste the URL above into the terminal</span>';
+} else if(p.get('error')){
+  document.getElementById('status').innerHTML = '<span style="color:#f04646">[ERR] ' + p.get('error') + ' - ' + (p.get('error_description')||'') + '</span>';
+}
+</script>
+</body></html>
